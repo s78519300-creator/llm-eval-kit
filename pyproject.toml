@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-eval-kit"
+version = "0.1.0"
+description = "Lightweight, rubric-based evaluation of LLM outputs: hallucination, omission, contradiction and format checks with auditable scoring."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Shalu Kumari" }]
+keywords = ["llm", "evaluation", "rubric", "hallucination", "genai", "testing", "llm-as-judge"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.optional-dependencies]
+yaml = ["PyYAML>=6.0"]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.4", "PyYAML>=6.0"]
+
+[project.scripts]
+llm-eval = "llm_eval_kit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/s78519300-creator/llm-eval-kit"
+Issues = "https://github.com/s78519300-creator/llm-eval-kit/issues"
+Changelog = "https://github.com/s78519300-creator/llm-eval-kit/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_eval_kit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.format]
+# README snippets are hand-formatted for readability.
+exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["UP007", "UP045", "SIM905"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]

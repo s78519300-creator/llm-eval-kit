@@ -1,0 +1,53 @@
+{
+  "name": "grounded-qa",
+  "version": "1.0",
+  "description": "Grounded question answering: answers must be faithful to the provided context, complete, concise and free of hedging.",
+  "pass_threshold": 0.8,
+  "blocking_severities": ["high", "critical"],
+  "criteria": [
+    {
+      "id": "groundedness",
+      "description": "Every claim in the answer is supported by the source context (no hallucinations).",
+      "check": "hallucination",
+      "weight": 3,
+      "severity": "critical",
+      "threshold": 0.75,
+      "params": {"min_support": 0.6}
+    },
+    {
+      "id": "consistency",
+      "description": "The answer never contradicts the source (negations, numbers).",
+      "check": "contradiction",
+      "weight": 3,
+      "severity": "critical",
+      "threshold": 1.0
+    },
+    {
+      "id": "completeness",
+      "description": "The answer includes every required key fact.",
+      "check": "omission",
+      "weight": 2,
+      "severity": "high",
+      "threshold": 0.66,
+      "params": {"min_coverage": 0.75}
+    },
+    {
+      "id": "conciseness",
+      "description": "The answer stays under 60 words.",
+      "check": "length",
+      "weight": 1,
+      "severity": "low",
+      "threshold": 0.8,
+      "params": {"min_words": 3, "max_words": 60}
+    },
+    {
+      "id": "tone",
+      "description": "No hedging or filler phrases.",
+      "check": "forbidden_phrases",
+      "weight": 1,
+      "severity": "medium",
+      "threshold": 1.0,
+      "params": {"phrases": ["I think", "I believe", "I'm not sure", "probably", "as far as I know"]}
+    }
+  ]
+}
